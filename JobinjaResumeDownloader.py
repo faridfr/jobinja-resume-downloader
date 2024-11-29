@@ -92,7 +92,7 @@ def process_pages(cookie, jsessid, xsrf_token, company_name,job_ad_id, max_pages
             print(f"خطا در دریافت صفحه {page}: وضعیت {response.status_code}")
             break
         
-        save_html(response.text, f"page_{page}.html")
+        # save_html(response.text, f"page_{page}.html")
         
         soup = BeautifulSoup(response.text, "html.parser")
         rows = soup.find_all("tr", {"data-candidate-box-url": True})
