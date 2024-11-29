@@ -57,8 +57,6 @@ def download_resume(url, headers, output_folder):
             person_name = soup.find('span', {'data-controller': 'shadow'}).text.strip()
             datetime = soup.find('span', {'class': 'd-none d-sm-inline-block fully-ltr'}).text.replace(')', '').replace('(', '').replace(':', '-').replace('/', '-').strip()
 
-            print(datetime)
-
             if download_link:
                 download_link = download_link.get("href") 
                 
@@ -68,9 +66,12 @@ def download_resume(url, headers, output_folder):
                         file_name_without_extension, file_extension = os.path.splitext(download_link)
                         file_extension = file_extension if file_extension.endswith(".pdf") else file_extension + ".pdf"
                         file_name = os.path.join(output_folder, convert_persian_to_english(datetime) + ' -- ' + person_name + file_extension.split("/")[-1].split("?")[0])
-                        with open(file_name, "wb") as f:
-                            f.write(file_response.content)
-                        print(f"فایل با موفقیت دانلود شد: {file_name}")
+                        if not os.path.exists(file_name):
+                            with open(file_name, "wb") as f:
+                                f.write(file_response.content)
+                            print(f"فایل با موفقیت دانلود شد: {file_name}")
+                        else:
+                            print(f"فایل با نام {file_name} از قبل وجود دارد. از دانلود مجدد جلوگیری شد.")
                     else:
                         print("دانلود فایل از لینک src با خطا مواجه شد.")
                 else:
