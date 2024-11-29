@@ -66,6 +66,7 @@ def download_resume(url, headers, output_folder):
                     file_response = requests.get(download_link, headers=headers)
                     if file_response.status_code == 200:
                         file_name_without_extension, file_extension = os.path.splitext(download_link)
+                        file_extension = file_extension if file_extension.endswith(".pdf") else file_extension + ".pdf"
                         file_name = os.path.join(output_folder, convert_persian_to_english(datetime) + ' -- ' + person_name + file_extension.split("/")[-1].split("?")[0])
                         with open(file_name, "wb") as f:
                             f.write(file_response.content)
