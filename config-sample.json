@@ -1,0 +1,10 @@
+{
+    "COOKIE": "مقدار کوکی مرورگر",
+    "JSESSID": "اینجا JSESSID را وارد کنید",
+    "XSRF-TOKEN": "اینجا XSRF-TOKEN را وارد کنید",
+    "company_name": "یوزرنیم شرکت در جابینجا",
+    "job_ad_id": "کد آگهی در جابینجا",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "max_pages": 20,
+    "delay": 2
+}
