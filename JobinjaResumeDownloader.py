@@ -6,6 +6,12 @@ import json
 
 csrf_token = None
 
+def convert_persian_to_english(text):
+    persian_digits = '۰۱۲۳۴۵۶۷۸۹'
+    english_digits = '0123456789'
+    translation_table = str.maketrans(persian_digits, english_digits)
+    return text.translate(translation_table)
+
 def load_settings():
     try:
         with open("config.json", "r", encoding="utf-8") as file:
@@ -48,6 +54,10 @@ def download_resume(url, headers, output_folder):
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             download_link = soup.find('a', {'data-action': 'click->download#download'})
+            person_name = soup.find('span', {'data-controller': 'shadow'}).text.strip()
+            datetime = soup.find('span', {'class': 'd-none d-sm-inline-block fully-ltr'}).text.replace(')', '').replace('(', '').replace(':', '-').replace('/', '-').strip()
+
+            print(datetime)
 
             if download_link:
                 download_link = download_link.get("href") 
@@ -55,7 +65,8 @@ def download_resume(url, headers, output_folder):
                 if download_link:
                     file_response = requests.get(download_link, headers=headers)
                     if file_response.status_code == 200:
-                        file_name = os.path.join(output_folder, download_link.split("/")[-1].split("?")[0])  # نام فایل را از لینک بگیرید
+                        file_name_without_extension, file_extension = os.path.splitext(download_link)
+                        file_name = os.path.join(output_folder, convert_persian_to_english(datetime) + ' -- ' + person_name + file_extension.split("/")[-1].split("?")[0])
                         with open(file_name, "wb") as f:
                             f.write(file_response.content)
                         print(f"فایل با موفقیت دانلود شد: {file_name}")
