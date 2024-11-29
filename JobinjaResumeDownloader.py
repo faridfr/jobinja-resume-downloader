@@ -39,7 +39,7 @@ def download_resume(url, headers, output_folder):
             'x-requested-with': 'XMLHttpRequest',
             'Accept-Language': 'en-US,en;q=0.9,fa-IR;q=0.8,fa;q=0.7',
             'Origin': 'https://panel.jobinja.ir',
-            'Referer': f'https://panel.jobinja.ir/novaday/posts/{url.split("/")[-1]}'
+            'Referer': f'https://panel.jobinja.ir/{company_name}/posts/{url.split("/")[-1]}'
         }
 
         data = f"_token={csrf_token}"
