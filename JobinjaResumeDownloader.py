@@ -81,9 +81,6 @@ def process_pages(cookie, jsessid, xsrf_token, company_name,job_ad_id, max_pages
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     }
 
-    output_folder = "resumes"
-    os.makedirs(output_folder, exist_ok=True)
-
     for page in range(1, max_pages + 1):
         print(f"در حال پردازش صفحه {page}...")
         print(base_url + str(page))
@@ -109,6 +106,15 @@ def process_pages(cookie, jsessid, xsrf_token, company_name,job_ad_id, max_pages
         if not resume_links:
             print(f"هیچ رزومه‌ای در صفحه {page} یافت نشد.")
             break
+
+        parent_div = soup.find('div', {'class': 'font-weight-bold font-size-2xl color-grey-dark-3 d-inline-block sm-font-size-xl'})
+        if parent_div:
+            job_title = parent_div.find('span', class_='d-inline-block vertical-align-middle')
+            if job_title:
+                print(job_title.text.strip()) 
+
+        output_folder = f"resumes/{job_ad_id} - {job_title.text.strip()}"
+        os.makedirs(output_folder, exist_ok=True)
         
         for link in resume_links:
             download_resume(link, headers, output_folder)
